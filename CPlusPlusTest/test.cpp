@@ -61,37 +61,21 @@ public:
 				used_color.insert(item_color[border_use_color]);
 			}
 		}
-		for (auto try_color : item_try_color[cur]) {
-			used_color.insert(try_color);
-		}
-		// 着色失败，上一个元素弹出栈顶，重新选择颜色着色
-		if (used_color.size() == 4) {
-			char pre = color_path.top();
-			color_path.pop();
-			tryToSetColor(pre, items_border);
-		}
 		// 判断第一个可以使用的颜色，找到身边的第一个没有颜色点继续迭代循环
 		for (auto color : colors) {
 			if (used_color.find(color) == used_color.end()) {
 				// --着色成功
 				item_color[cur] = color;
-				// --找到相邻下一个点继续迭代循环
-				bool bIsAllColored = true;
+				// --将当前点压栈
+				color_path.push(cur);
 				for (auto border_item : items_border[cur]) {
 					if (item_color[border_item] == '\0') {
-						// ----将当前点压栈
-						color_path.push(cur);
-						// ----将当前点此次尝试颜色记录
-						item_try_color[cur].push_back(item_color[cur]);
 						// ----再次尝试着色
 						tryToSetColor(border_item, items_border);
-						bIsAllColored = false;
 					}
 				}
 				// 全部着色完毕
-				if (bIsAllColored == true) {
-					return;
-				}
+				return;
 			} 
 		}
 	}
@@ -129,7 +113,6 @@ public:
 
 private:
 	stack<char> color_path;
-	unordered_map<char, vector<char>> item_try_color;	// 每个点在路径中尝试过的颜色
 	unordered_map<char, char> item_color;
 	const vector<char> colors = { '+', '-', '*', '/' };
 };
