@@ -12,7 +12,6 @@ using std::endl;
 using std::unordered_map;
 using std::unordered_set;
 using std::stack;
-using std::unique;
 
 class Solution {
 public:
