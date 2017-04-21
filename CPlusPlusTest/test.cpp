@@ -73,8 +73,6 @@ public:
 			if (used_color.find(color) == used_color.end()) {
 				// ----着色成功
 				item_color[cur] = color;
-				// ----将当前点压栈
-				color_path.push(cur);
 				// ----查看当前点的相邻点是否有未着色的点，若有则进行着色处理
 				for (auto border_item : items_border[cur]) {
 					if (item_color[border_item] == '\0') {
